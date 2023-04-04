@@ -15,7 +15,7 @@ RDEPEND="
   virtual/fydemina
   chromeos-base/chromeos-bsp-inaugural
   chromeos-base/chromeos-bsp-inaugural-openfyde
-  chromeos-base/chromeos-bsp-rock5b-openfyde
+  chromeos-base/chromeos-bsp-rock5b-openfyde-base
 "
 
 DEPEND="${RDEPEND}"

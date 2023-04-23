@@ -1,0 +1,420 @@
+From a429f8800132881d279e69ec8cca617e6f95453b Mon Sep 17 00:00:00 2001
+From: Su Yue <glass@fydeos.io>
+Date: Sun, 23 Apr 2023 16:20:17 +0800
+Subject: [PATCH] Add third party overlay files
+
+Signed-off-by: Su Yue <glass@fydeos.io>
+---
+ arch/arm64/boot/dts/rockchip/overlay/Makefile |   5 +-
+ .../boot/dts/rockchip/overlay/pwm-fan.dts     |  67 +++++
+ .../overlay/rk3588-add-hdptxphy_hdmi_clk.dts  |  23 ++
+ .../rockchip/overlay/rk3588-unlock-opps.dts   | 277 ++++++++++++++++++
+ 4 files changed, 371 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/rockchip/overlay/pwm-fan.dts
+ create mode 100644 arch/arm64/boot/dts/rockchip/overlay/rk3588-add-hdptxphy_hdmi_clk.dts
+ create mode 100644 arch/arm64/boot/dts/rockchip/overlay/rk3588-unlock-opps.dts
+
+diff --git a/arch/arm64/boot/dts/rockchip/overlay/Makefile b/arch/arm64/boot/dts/rockchip/overlay/Makefile
+index 25b568828a46..34590c535642 100644
+--- a/arch/arm64/boot/dts/rockchip/overlay/Makefile
++++ b/arch/arm64/boot/dts/rockchip/overlay/Makefile
+@@ -35,7 +35,10 @@ dtbo-$(CONFIG_ARCH_ROCKCHIP) += \
+ 	rk3588-uart4-m2.dtbo \
+ 	rk3588-uart7-m1-ctsn-rtsn.dtbo \
+ 	rk3588-uart7-m1.dtbo \
+-	rk3588-uart7-m2.dtbo
++	rk3588-uart7-m2.dtbo \
++	pwm-fan.dtbo \
++	rk3588-add-hdptxphy_hdmi_clk.dtbo \
++	rk3588-unlock-opps.dtbo
+ 
+ scr-$(CONFIG_ARCH_ROCKCHIP) += \
+ 	rockchip-fixup.scr
+diff --git a/arch/arm64/boot/dts/rockchip/overlay/pwm-fan.dts b/arch/arm64/boot/dts/rockchip/overlay/pwm-fan.dts
+new file mode 100644
+index 000000000000..76f8b11744fb
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/overlay/pwm-fan.dts
+@@ -0,0 +1,67 @@
++/dts-v1/;
++/plugin/;
++/ {
++        fragment@0 {
++                target-path = "/";
++                __overlay__ {
++			fan0: pwm-fan {
++				compatible = "pwm-fan";
++				#cooling-cells = <2>;
++				cooling-levels = <0 130 150 200 255>;
++				pwms = <&pwm1 0 10000 0>;
++			};
++		};
++	};
++        fragment@1 {
++                target = <&soc_thermal>;
++                __overlay__ {
++			polling-delay = <1000>;
++			polling-delay-passive = <2000>;
++			trips {
++				trip0: trip-point@0 {
++					temperature = <55000>;
++					hysteresis = <5000>;
++					type = "active";
++				};
++				trip1: trip-point@1 {
++					temperature = <60000>;
++					hysteresis = <5000>;
++					type = "active";
++				};
++				trip2: trip-point@2 {
++					temperature = <65000>;
++					hysteresis = <5000>;
++					type = "active";
++				};
++				pcritical: trip-point@3 {
++					temperature = <80000>;
++					hysteresis = <1000>;
++					type = "active";
++				};
++			};
++			cooling-maps {
++				map0 {
++					trip = <&trip0>;
++					cooling-device = <&fan0 0 1>;
++					contribution = <1024>;
++				};
++				map1 {
++					trip = <&trip1>;
++					cooling-device = <&fan0 1 2>;
++					contribution = <1024>;
++				};
++				map2 {
++					trip = <&trip2>;
++					cooling-device = <&fan0 2 3>;
++					contribution = <1024>;
++				};
++				map3 {
++					trip = <&pcritical>;
++					cooling-device = <&fan0 3 4>;
++					contribution = <1024>;
++				};
++
++			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/rockchip/overlay/rk3588-add-hdptxphy_hdmi_clk.dts b/arch/arm64/boot/dts/rockchip/overlay/rk3588-add-hdptxphy_hdmi_clk.dts
+new file mode 100644
+index 000000000000..3cbb852f6afb
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/overlay/rk3588-add-hdptxphy_hdmi_clk.dts
+@@ -0,0 +1,23 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@0 {
++		target = <&hdptxphy_hdmi_clk0>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++	fragment@1 {
++		target = <&hdptxphy_hdmi_clk1>;
++		__overlay__ {
++			status = "okay";
++		};
++	};
++	fragment@2 {
++		target = <&display_subsystem>;
++		__overlay__ {
++			clocks = <&hdptxphy_hdmi_clk0>, <&hdptxphy_hdmi_clk1>;
++			clock-names = "hdmi0_phy_pll", "hdmi1_phy_pll";
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/rockchip/overlay/rk3588-unlock-opps.dts b/arch/arm64/boot/dts/rockchip/overlay/rk3588-unlock-opps.dts
+new file mode 100644
+index 000000000000..63903301dbd5
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/overlay/rk3588-unlock-opps.dts
+@@ -0,0 +1,277 @@
++/dts-v1/;
++/plugin/;
++/ {
++	fragment@0 {
++		target = <&cluster1_opp_table>;
++		__overlay__ {
++			opp-408000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-600000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-816000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1008000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1200000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1416000000 {
++				opp-microvolt = <725000 725000 1350000>,
++						<725000 725000 1350000>;
++				opp-microvolt-L2 = <712500 712500 1350000>,
++						   <712500 712500 1350000>;
++				opp-microvolt-L3 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L4 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L5 = <687500 687500 1350000>,
++						   <687500 687500 1350000>;
++				opp-microvolt-L6 = <675000 675000 1350000>,
++						   <675000 675000 1350000>;
++				opp-microvolt-L7 = <675000 675000 1350000>,
++						   <675000 675000 1350000>;
++			};
++			opp-1608000000 {
++				opp-microvolt = <762500 762500 1350000>,
++						<762500 762500 1350000>;
++				opp-microvolt-L2 = <750000 750000 1350000>,
++						   <750000 750000 1350000>;
++				opp-microvolt-L3 = <737500 737500 1350000>,
++						   <737500 737500 1350000>;
++				opp-microvolt-L4 = <725000 725000 1350000>,
++						   <725000 725000 1350000>;
++				opp-microvolt-L5 = <712500 712500 1350000>,
++						   <712500 712500 1350000>;
++				opp-microvolt-L6 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L7 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++			};
++			opp-1800000000 {
++				opp-microvolt = <850000 850000 1350000>,
++						<850000 850000 1350000>;
++				opp-microvolt-L1 = <837500 837500 1350000>,
++						   <837500 837500 1350000>;
++				opp-microvolt-L2 = <825000 825000 1350000>,
++						   <825000 825000 1350000>;
++				opp-microvolt-L3 = <812500 812500 1350000>,
++						   <812500 812500 1350000>;
++				opp-microvolt-L4 = <800000 800000 1350000>,
++						   <800000 800000 1350000>;
++				opp-microvolt-L5 = <787500 787500 1350000>,
++						   <787500 787500 1350000>;
++				opp-microvolt-L6 = <775000 775000 1350000>,
++						   <775000 775000 1350000>;
++				opp-microvolt-L7 = <762500 762500 1350000>,
++						   <762500 762500 1350000>;
++			};
++			opp-2016000000 {
++				opp-microvolt = <925000 925000 1350000>,
++						<925000 925000 1350000>;
++				opp-microvolt-L1 = <912500 912500 1350000>,
++						   <912500 912500 1350000>;
++				opp-microvolt-L2 = <900000 900000 1350000>,
++						   <900000 900000 1350000>;
++				opp-microvolt-L3 = <887500 887500 1350000>,
++						   <887500 887500 1350000>;
++				opp-microvolt-L4 = <875000 875000 1350000>,
++						   <875000 875000 1350000>;
++				opp-microvolt-L5 = <862500 862500 1350000>,
++						   <862500 862500 1350000>;
++				opp-microvolt-L6 = <850000 850000 1350000>,
++						   <850000 850000 1350000>;
++				opp-microvolt-L7 = <837500 837500 1350000>,
++						   <837500 837500 1350000>;
++			};
++			opp-2208000000 {
++				opp-microvolt = <987500 987500 1350000>,
++						<987500 987500 1350000>;
++				opp-microvolt-L1 = <975000 975000 1350000>,
++						   <975000 975000 1350000>;
++				opp-microvolt-L2 = <962500 962500 1350000>,
++						   <962500 962500 1350000>;
++				opp-microvolt-L3 = <950000 950000 1350000>,
++						   <950000 950000 1350000>;
++				opp-microvolt-L4 = <962500 962500 1350000>,
++						   <962500 962500 1350000>;
++				opp-microvolt-L5 = <950000 950000 1350000>,
++						   <950000 950000 1350000>;
++				opp-microvolt-L6 = <925000 925000 1350000>,
++						   <925000 925000 1350000>;
++				opp-microvolt-L7 = <912500 912500 1350000>,
++						   <912500 912500 1350000>;
++			};
++			opp-2256000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2304000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2352000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2400000000 {
++				opp-microvolt = <1350000 1350000 1350000>,
++						<1350000 1350000 1350000>;
++				opp-supported-hw = <0xff 0xf0>;
++			};
++		};
++	};
++	fragment@1 {
++		target = <&cluster2_opp_table>;
++		__overlay__ {
++			opp-408000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-600000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-816000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1008000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1200000000 {
++				opp-microvolt = <675000 675000 1350000>,
++						<675000 675000 1350000>;
++			};
++			opp-1416000000 {
++				opp-microvolt = <725000 725000 1350000>,
++						<725000 725000 1350000>;
++				opp-microvolt-L2 = <712500 712500 1350000>,
++						   <712500 712500 1350000>;
++				opp-microvolt-L3 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L4 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L5 = <687500 687500 1350000>,
++						   <687500 687500 1350000>;
++				opp-microvolt-L6 = <675000 675000 1350000>,
++						   <675000 675000 1350000>;
++				opp-microvolt-L7 = <675000 675000 1350000>,
++						   <675000 675000 1350000>;
++			};
++			opp-1608000000 {
++				opp-microvolt = <762500 762500 1350000>,
++						<762500 762500 1350000>;
++				opp-microvolt-L2 = <750000 750000 1350000>,
++						   <750000 750000 1350000>;
++				opp-microvolt-L3 = <737500 737500 1350000>,
++						   <737500 737500 1350000>;
++				opp-microvolt-L4 = <725000 725000 1350000>,
++						   <725000 725000 1350000>;
++				opp-microvolt-L5 = <712500 712500 1350000>,
++						   <712500 712500 1350000>;
++				opp-microvolt-L6 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++				opp-microvolt-L7 = <700000 700000 1350000>,
++						   <700000 700000 1350000>;
++			};
++			opp-1800000000 {
++				opp-microvolt = <850000 850000 1350000>,
++						<850000 850000 1350000>;
++				opp-microvolt-L1 = <837500 837500 1350000>,
++						   <837500 837500 1350000>;
++				opp-microvolt-L2 = <825000 825000 1350000>,
++						   <825000 825000 1350000>;
++				opp-microvolt-L3 = <812500 812500 1350000>,
++						   <812500 812500 1350000>;
++				opp-microvolt-L4 = <800000 800000 1350000>,
++						   <800000 800000 1350000>;
++				opp-microvolt-L5 = <787500 787500 1350000>,
++						   <787500 787500 1350000>;
++				opp-microvolt-L6 = <775000 775000 1350000>,
++						   <775000 775000 1350000>;
++				opp-microvolt-L7 = <762500 762500 1350000>,
++						   <762500 762500 1350000>;
++			};
++			opp-2016000000 {
++				opp-microvolt = <925000 925000 1350000>,
++						<925000 925000 1350000>;
++				opp-microvolt-L1 = <912500 912500 1350000>,
++						   <912500 912500 1350000>;
++				opp-microvolt-L2 = <900000 900000 1350000>,
++						   <900000 900000 1350000>;
++				opp-microvolt-L3 = <887500 887500 1350000>,
++						   <887500 887500 1350000>;
++				opp-microvolt-L4 = <875000 875000 1350000>,
++						   <875000 875000 1350000>;
++				opp-microvolt-L5 = <862500 862500 1350000>,
++						   <862500 862500 1350000>;
++				opp-microvolt-L6 = <850000 850000 1350000>,
++						   <850000 850000 1350000>;
++				opp-microvolt-L7 = <837500 837500 1350000>,
++						   <837500 837500 1350000>;
++			};
++			opp-2208000000 {
++				opp-microvolt = <987500 987500 1350000>,
++						<987500 987500 1350000>;
++				opp-microvolt-L1 = <975000 975000 1350000>,
++						   <975000 975000 1350000>;
++				opp-microvolt-L2 = <962500 962500 1350000>,
++						   <962500 962500 1350000>;
++				opp-microvolt-L3 = <950000 950000 1350000>,
++						   <950000 950000 1350000>;
++				opp-microvolt-L4 = <962500 962500 1350000>,
++						   <962500 962500 1350000>;
++				opp-microvolt-L5 = <950000 950000 1350000>,
++						   <950000 950000 1350000>;
++				opp-microvolt-L6 = <925000 925000 1350000>,
++						   <925000 925000 1350000>;
++				opp-microvolt-L7 = <912500 912500 1350000>,
++						   <912500 912500 1350000>;
++			};
++			opp-2256000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2304000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2352000000 {
++				opp-microvolt = <1000000 1000000 1350000>,
++						<1000000 1000000 1350000>;
++			};
++			opp-2400000000 {
++				opp-microvolt = <1350000 1350000 1350000>,
++						<1350000 1350000 1350000>;
++				opp-supported-hw = <0xff 0xf0>;
++			};
++		};
++	};
++	fragment@2 {
++		target = <&dmc>;
++		__overlay__ {
++			upthreshold = <20>;
++		};
++	};
++	fragment@3 {
++		target = <&i2c0>;
++		__overlay__ {
++			rk8602@42 {
++				regulator-max-microvolt = <0x16e360>;
++			};
++			rk8603@43 {
++				regulator-max-microvolt = <0x16e360>;
++			};
++		};
++	};
++};
+-- 
+2.40.0
+

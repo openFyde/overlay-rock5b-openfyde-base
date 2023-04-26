@@ -10,7 +10,7 @@ index 9fbae9c195b8..ea116a9b2f39 100755
 +  /usr/bin/rootdev -d
 +}
 +
-+get_part_num() {
++get_part_num_of() {
 +  local dev=$1
 +  echo ${dev##*[a-z]}
 +}
@@ -46,7 +46,7 @@ index 9fbae9c195b8..ea116a9b2f39 100755
  
    local install_dev="$1"
 +  local root_dev=$(get_disk_dev)
-+  local target_part_num=$(get_part_num $install_dev)
++  local target_part_num=$(get_part_num_of $install_dev)
 +  if [ "$(get_android_version /etc/lsb-release)" -ne "$(get_android_version etc/lsb-release)" ]; then
 +    chroot . /usr/sbin/mark_clean_overlay.sh $target_part_num $root_dev
 +  fi

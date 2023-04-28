@@ -26,5 +26,5 @@ S="${WORKDIR}"
 
 src_install() {
     insinto "/etc/init"
-    doins ${FILESDIR}/powerd/suspend-in-s2.conf
+    doins ${FILESDIR}/powerd/never-suspend.conf
 }

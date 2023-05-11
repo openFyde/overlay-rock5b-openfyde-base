@@ -1,0 +1,123 @@
+From e454133a4de58244655c06e9969361c5cb0e5142 Mon Sep 17 00:00:00 2001
+From: amazingfate <liujianfeng1994@gmail.com>
+Date: Thu, 4 May 2023 15:21:48 +0800
+Subject: [PATCH] arm64:dts: Add pwm-fan node to rock5b
+
+---
+ .../boot/dts/rockchip/rk3588-rock-5b.dts      | 96 +++++++++++++++++++
+ 1 file changed, 96 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+index e3e694e793c8..27daaa82ec58 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
+@@ -256,6 +256,13 @@
+ 			sound-dai = <&hdmiin_dc>;
+ 		};
+ 	};
++
++	fan0: pwm-fan {
++		compatible = "pwm-fan";
++		#cooling-cells = <2>;
++		cooling-levels = <72 94 117 139 162 184 207 229 255>;
++		pwms = <&pwm1 0 10000 0>;
++	};
+ };
+ 
+ &av1d {
+@@ -543,6 +550,95 @@
+ 	status = "okay";
+ };
+ 
++&soc_thermal {
++	polling-delay = <1000>;
++	polling-delay-passive = <2000>;
++	trips {
++		trip0: trip-point@0 {
++			temperature = <45000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip1: trip-point@1 {
++			temperature = <50000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip2: trip-point@2 {
++			temperature = <55000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip3: trip-point@3 {
++			temperature = <60000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip4: trip-point@4 {
++			temperature = <65000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip5: trip-point@5 {
++			temperature = <70000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		trip6: trip-point@6 {
++			temperature = <75000>;
++			hysteresis = <5000>;
++			type = "active";
++		};
++		pcritical: trip-point@7 {
++			temperature = <80000>;
++			hysteresis = <1000>;
++			type = "active";
++		};
++	};
++	cooling-maps {
++		map0 {
++			trip = <&trip0>;
++			cooling-device = <&fan0 0 1>;
++			contribution = <1024>;
++		};
++		map1 {
++			trip = <&trip1>;
++			cooling-device = <&fan0 1 2>;
++			contribution = <1024>;
++		};
++		map2 {
++			trip = <&trip2>;
++			cooling-device = <&fan0 2 3>;
++			contribution = <1024>;
++		};
++		map3 {
++			trip = <&trip3>;
++			cooling-device = <&fan0 3 4>;
++			contribution = <1024>;
++		};
++		map4 {
++			trip = <&trip4>;
++			cooling-device = <&fan0 4 5>;
++			contribution = <1024>;
++		};
++		map5 {
++			trip = <&trip5>;
++			cooling-device = <&fan0 5 6>;
++			contribution = <1024>;
++		};
++		map6 {
++			trip = <&trip6>;
++			cooling-device = <&fan0 6 7>;
++			contribution = <1024>;
++		};
++		map7 {
++			trip = <&pcritical>;
++			cooling-device = <&fan0 7 8>;
++			contribution = <1024>;
++		};
++	};
++};
++
+ &uart6 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&uart6m1_xfer &uart6m1_ctsn>;

@@ -1,8 +1,8 @@
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d4d2840989df..a598ab332386 100644
+index d9a3966af85f..6f49d95f903b 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
 +++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -116,7 +116,7 @@ hdmi0_sound: hdmi0-sound {
+@@ -102,7 +102,7 @@ hdmi0_sound: hdmi0-sound {
  		status = "okay";
  		compatible = "rockchip,hdmi";
  		rockchip,mclk-fs = <128>;
@@ -11,7 +11,7 @@ index d4d2840989df..a598ab332386 100644
  		rockchip,cpu = <&i2s5_8ch>;
  		rockchip,codec = <&hdmi0>;
  		rockchip,jack-det;
-@@ -126,7 +126,7 @@ hdmi1_sound: hdmi1-sound {
+@@ -112,7 +112,7 @@ hdmi1_sound: hdmi1-sound {
  		status = "okay";
  		compatible = "rockchip,hdmi";
  		rockchip,mclk-fs = <128>;
@@ -20,6 +20,15 @@ index d4d2840989df..a598ab332386 100644
  		rockchip,cpu = <&i2s6_8ch>;
  		rockchip,codec = <&hdmi1>;
  		rockchip,jack-det;
+@@ -121,7 +121,7 @@ hdmi1_sound: hdmi1-sound {
+ 	dp0_sound: dp0-sound {
+ 		status = "okay";
+ 		compatible = "rockchip,hdmi";
+-		rockchip,card-name= "rockchip-hdmi2";
++		rockchip,card-name= "TYPEC-HDMI";
+ 		rockchip,mclk-fs = <512>;
+ 		rockchip,cpu = <&spdif_tx2>;
+ 		rockchip,codec = <&dp0 1>;
 diff --git a/sound/soc/rockchip/rockchip_hdmi.c b/sound/soc/rockchip/rockchip_hdmi.c
 index f7d721272267..27776ad8b8f0 100644
 --- a/sound/soc/rockchip/rockchip_hdmi.c

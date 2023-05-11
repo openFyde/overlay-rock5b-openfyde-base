@@ -1,7 +1,7 @@
-Index: linux/include/net/netns/core.h
+Index: kernel-rockchip/include/net/netns/core.h
 ===================================================================
---- linux.orig/include/net/netns/core.h
-+++ linux/include/net/netns/core.h
+--- kernel-rockchip.orig/include/net/netns/core.h
++++ kernel-rockchip/include/net/netns/core.h
 @@ -10,6 +10,7 @@ struct netns_core {
  	struct ctl_table_header	*sysctl_hdr;
  
@@ -10,11 +10,11 @@ Index: linux/include/net/netns/core.h
  
  #ifdef CONFIG_PROC_FS
  	int __percpu *sock_inuse;
-Index: linux/include/net/sock.h
+Index: kernel-rockchip/include/net/sock.h
 ===================================================================
---- linux.orig/include/net/sock.h
-+++ linux/include/net/sock.h
-@@ -2656,6 +2656,8 @@ bool sk_ns_capable(const struct sock *sk
+--- kernel-rockchip.orig/include/net/sock.h
++++ kernel-rockchip/include/net/sock.h
+@@ -2698,6 +2698,8 @@ bool sk_ns_capable(const struct sock *sk
  		   struct user_namespace *user_ns, int cap);
  bool sk_capable(const struct sock *sk, int cap);
  bool sk_net_capable(const struct sock *sk, int cap);
@@ -23,10 +23,10 @@ Index: linux/include/net/sock.h
  
  void sk_get_meminfo(const struct sock *sk, u32 *meminfo);
  
-Index: linux/net/core/sock.c
+Index: kernel-rockchip/net/core/sock.c
 ===================================================================
---- linux.orig/net/core/sock.c
-+++ linux/net/core/sock.c
+--- kernel-rockchip.orig/net/core/sock.c
++++ kernel-rockchip/net/core/sock.c
 @@ -114,6 +114,7 @@
  #include <linux/memcontrol.h>
  #include <linux/prefetch.h>
@@ -35,7 +35,7 @@ Index: linux/net/core/sock.c
  
  #include <linux/uaccess.h>
  
-@@ -194,6 +195,40 @@ bool sk_net_capable(const struct sock *s
+@@ -193,6 +194,40 @@ bool sk_net_capable(const struct sock *s
  }
  EXPORT_SYMBOL(sk_net_capable);
  
@@ -76,7 +76,7 @@ Index: linux/net/core/sock.c
  /*
   * Each address family might have different locking rules, so we have
   * one slock key per address family and separate keys for internal and
-@@ -566,7 +601,7 @@ static int sock_bindtoindex_locked(struc
+@@ -565,7 +600,7 @@ static int sock_bindtoindex_locked(struc
  
  	/* Sorry... */
  	ret = -EPERM;
@@ -85,11 +85,11 @@ Index: linux/net/core/sock.c
  		goto out;
  
  	ret = -EINVAL;
-Index: linux/net/core/sysctl_net_core.c
+Index: kernel-rockchip/net/core/sysctl_net_core.c
 ===================================================================
---- linux.orig/net/core/sysctl_net_core.c
-+++ linux/net/core/sysctl_net_core.c
-@@ -576,6 +576,15 @@ static struct ctl_table net_core_table[]
+--- kernel-rockchip.orig/net/core/sysctl_net_core.c
++++ kernel-rockchip/net/core/sysctl_net_core.c
+@@ -579,6 +579,15 @@ static struct ctl_table net_core_table[]
  };
  
  static struct ctl_table netns_core_table[] = {
@@ -105,7 +105,7 @@ Index: linux/net/core/sysctl_net_core.c
  	{
  		.procname	= "somaxconn",
  		.data		= &init_net.core.sysctl_somaxconn,
-@@ -604,17 +613,20 @@ static __net_init int sysctl_core_net_in
+@@ -607,17 +616,20 @@ static __net_init int sysctl_core_net_in
  {
  	struct ctl_table *tbl;
  
@@ -128,10 +128,10 @@ Index: linux/net/core/sysctl_net_core.c
  		}
  	}
  
-Index: linux/include/linux/android_aid.h
+Index: kernel-rockchip/include/linux/android_aid.h
 ===================================================================
 --- /dev/null
-+++ linux/include/linux/android_aid.h
++++ kernel-rockchip/include/linux/android_aid.h
 @@ -0,0 +1,28 @@
 +/* include/linux/android_aid.h
 + *
@@ -161,10 +161,10 @@ Index: linux/include/linux/android_aid.h
 +#define AID_NET_BW_ACCT  (3007)  /* change bandwidth statistics accounting */
 +
 +#endif
-Index: linux/net/ipv4/af_inet.c
+Index: kernel-rockchip/net/ipv4/af_inet.c
 ===================================================================
---- linux.orig/net/ipv4/af_inet.c
-+++ linux/net/ipv4/af_inet.c
+--- kernel-rockchip.orig/net/ipv4/af_inet.c
++++ kernel-rockchip/net/ipv4/af_inet.c
 @@ -85,6 +85,7 @@
  #include <linux/netfilter_ipv4.h>
  #include <linux/random.h>
@@ -192,10 +192,10 @@ Index: linux/net/ipv4/af_inet.c
  		goto out_rcu_unlock;
  
  	sock->ops = answer->ops;
-Index: linux/net/ipv6/af_inet6.c
+Index: kernel-rockchip/net/ipv6/af_inet6.c
 ===================================================================
---- linux.orig/net/ipv6/af_inet6.c
-+++ linux/net/ipv6/af_inet6.c
+--- kernel-rockchip.orig/net/ipv6/af_inet6.c
++++ kernel-rockchip/net/ipv6/af_inet6.c
 @@ -39,6 +39,7 @@
  #include <linux/netdevice.h>
  #include <linux/icmpv6.h>
@@ -223,11 +223,11 @@ Index: linux/net/ipv6/af_inet6.c
  		goto out_rcu_unlock;
  
  	sock->ops = answer->ops;
-Index: linux/net/core/dev_ioctl.c
+Index: kernel-rockchip/net/core/dev_ioctl.c
 ===================================================================
---- linux.orig/net/core/dev_ioctl.c
-+++ linux/net/core/dev_ioctl.c
-@@ -495,7 +495,7 @@ int dev_ioctl(struct net *net, unsigned
+--- kernel-rockchip.orig/net/core/dev_ioctl.c
++++ kernel-rockchip/net/core/dev_ioctl.c
+@@ -471,7 +471,7 @@ int dev_ioctl(struct net *net, unsigned
  	case SIOCBRADDIF:
  	case SIOCBRDELIF:
  	case SIOCSHWTSTAMP:
@@ -236,10 +236,10 @@ Index: linux/net/core/dev_ioctl.c
  			return -EPERM;
  		fallthrough;
  	case SIOCBONDSLAVEINFOQUERY:
-Index: linux/net/ipv4/devinet.c
+Index: kernel-rockchip/net/ipv4/devinet.c
 ===================================================================
---- linux.orig/net/ipv4/devinet.c
-+++ linux/net/ipv4/devinet.c
+--- kernel-rockchip.orig/net/ipv4/devinet.c
++++ kernel-rockchip/net/ipv4/devinet.c
 @@ -1045,7 +1045,7 @@ int devinet_ioctl(struct net *net, unsig
  
  	case SIOCSIFFLAGS:

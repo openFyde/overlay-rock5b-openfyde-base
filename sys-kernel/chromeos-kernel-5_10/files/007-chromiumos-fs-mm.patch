@@ -1,7 +1,7 @@
-Index: linux/drivers/Kconfig
+Index: kernel-rockchip/drivers/Kconfig
 ===================================================================
---- linux.orig/drivers/Kconfig
-+++ linux/drivers/Kconfig
+--- kernel-rockchip.orig/drivers/Kconfig
++++ kernel-rockchip/drivers/Kconfig
 @@ -236,6 +236,8 @@ source "drivers/counter/Kconfig"
  
  source "drivers/most/Kconfig"
@@ -11,10 +11,10 @@ Index: linux/drivers/Kconfig
  source "drivers/rkflash/Kconfig"
  
  source "drivers/rk_nand/Kconfig"
-Index: linux/drivers/Makefile
+Index: kernel-rockchip/drivers/Makefile
 ===================================================================
---- linux.orig/drivers/Makefile
-+++ linux/drivers/Makefile
+--- kernel-rockchip.orig/drivers/Makefile
++++ kernel-rockchip/drivers/Makefile
 @@ -189,6 +189,7 @@ obj-$(CONFIG_GNSS)		+= gnss/
  obj-$(CONFIG_INTERCONNECT)	+= interconnect/
  obj-$(CONFIG_COUNTER)		+= counter/
@@ -23,10 +23,10 @@ Index: linux/drivers/Makefile
  obj-$(CONFIG_RK_FLASH)		+= rkflash/
  obj-$(CONFIG_RK_HEADSET)	+= headset_observe/
  obj-$(CONFIG_RK_NAND)		+= rk_nand/
-Index: linux/drivers/char/mem.c
+Index: kernel-rockchip/drivers/char/mem.c
 ===================================================================
---- linux.orig/drivers/char/mem.c
-+++ linux/drivers/char/mem.c
+--- kernel-rockchip.orig/drivers/char/mem.c
++++ kernel-rockchip/drivers/char/mem.c
 @@ -34,6 +34,7 @@
  #include <linux/pseudo_fs.h>
  #include <uapi/linux/magic.h>
@@ -45,10 +45,10 @@ Index: linux/drivers/char/mem.c
  };
  
  static int memory_open(struct inode *inode, struct file *filp)
-Index: linux/drivers/pkglist/Kconfig
+Index: kernel-rockchip/drivers/pkglist/Kconfig
 ===================================================================
 --- /dev/null
-+++ linux/drivers/pkglist/Kconfig
++++ kernel-rockchip/drivers/pkglist/Kconfig
 @@ -0,0 +1,30 @@
 +config PKGLIST
 +	tristate "Package list for emulated 'SD card' file system for Android"
@@ -80,18 +80,18 @@ Index: linux/drivers/pkglist/Kconfig
 +	help
 +	  This does not allow configuration of sdcardfs.
 +endchoice
-Index: linux/drivers/pkglist/Makefile
+Index: kernel-rockchip/drivers/pkglist/Makefile
 ===================================================================
 --- /dev/null
-+++ linux/drivers/pkglist/Makefile
++++ kernel-rockchip/drivers/pkglist/Makefile
 @@ -0,0 +1,3 @@
 +obj-$(CONFIG_PKGLIST) += pkg.o
 +pkg-$(CONFIG_PKGLIST_USE_CONFIGFS) += pkglist.o
 +pkg-$(CONFIG_PKGLIST_NO_CONFIG) += pkglist_none.o
-Index: linux/drivers/pkglist/pkglist.c
+Index: kernel-rockchip/drivers/pkglist/pkglist.c
 ===================================================================
 --- /dev/null
-+++ linux/drivers/pkglist/pkglist.c
++++ kernel-rockchip/drivers/pkglist/pkglist.c
 @@ -0,0 +1,966 @@
 +/*
 + * Copyright (C) 2017 Google Inc., Author: Daniel Rosenberg <drosen@google.com>
@@ -1059,10 +1059,10 @@ Index: linux/drivers/pkglist/pkglist.c
 +MODULE_AUTHOR("Daniel Rosenberg, Google");
 +MODULE_DESCRIPTION("Configfs Pkglist implementation");
 +MODULE_LICENSE("GPL v2");
-Index: linux/drivers/pkglist/pkglist_none.c
+Index: kernel-rockchip/drivers/pkglist/pkglist_none.c
 ===================================================================
 --- /dev/null
-+++ linux/drivers/pkglist/pkglist_none.c
++++ kernel-rockchip/drivers/pkglist/pkglist_none.c
 @@ -0,0 +1,57 @@
 +/*
 + * Copyright (C) 2017 Google Inc., Author: Daniel Rosenberg <drosen@google.com>
@@ -1121,10 +1121,10 @@ Index: linux/drivers/pkglist/pkglist_none.c
 +MODULE_AUTHOR("Daniel Rosenberg, Google");
 +MODULE_DESCRIPTION("Empty Pkglist implementation");
 +MODULE_LICENSE("GPL v2");
-Index: linux/fs/Kconfig
+Index: kernel-rockchip/fs/Kconfig
 ===================================================================
---- linux.orig/fs/Kconfig
-+++ linux/fs/Kconfig
+--- kernel-rockchip.orig/fs/Kconfig
++++ kernel-rockchip/fs/Kconfig
 @@ -267,6 +267,7 @@ source "fs/orangefs/Kconfig"
  source "fs/adfs/Kconfig"
  source "fs/affs/Kconfig"
@@ -1133,10 +1133,10 @@ Index: linux/fs/Kconfig
  source "fs/hfs/Kconfig"
  source "fs/hfsplus/Kconfig"
  source "fs/befs/Kconfig"
-Index: linux/fs/Makefile
+Index: kernel-rockchip/fs/Makefile
 ===================================================================
---- linux.orig/fs/Makefile
-+++ linux/fs/Makefile
+--- kernel-rockchip.orig/fs/Makefile
++++ kernel-rockchip/fs/Makefile
 @@ -89,6 +89,7 @@ obj-$(CONFIG_ISO9660_FS)	+= isofs/
  obj-$(CONFIG_HFSPLUS_FS)	+= hfsplus/ # Before hfs to find wrapped HFS+
  obj-$(CONFIG_HFS_FS)		+= hfs/
@@ -1145,10 +1145,10 @@ Index: linux/fs/Makefile
  obj-$(CONFIG_VXFS_FS)		+= freevxfs/
  obj-$(CONFIG_NFS_FS)		+= nfs/
  obj-$(CONFIG_EXPORTFS)		+= exportfs/
-Index: linux/fs/esdfs/Kconfig
+Index: kernel-rockchip/fs/esdfs/Kconfig
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/Kconfig
++++ kernel-rockchip/fs/esdfs/Kconfig
 @@ -0,0 +1,7 @@
 +config ESD_FS
 +	tristate "Emulated 'SD card' file system for Android (EXPERIMENTAL)"
@@ -1157,10 +1157,10 @@ Index: linux/fs/esdfs/Kconfig
 +	help
 +	  Esdfs is a wrapfs-based file system, designed to implement the
 +	  Android "sdcard" FUSE-backed file system from within the kernel.
-Index: linux/fs/esdfs/Makefile
+Index: kernel-rockchip/fs/esdfs/Makefile
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/Makefile
++++ kernel-rockchip/fs/esdfs/Makefile
 @@ -0,0 +1,7 @@
 +ESDFS_VERSION="0.2"
 +
@@ -1169,10 +1169,10 @@ Index: linux/fs/esdfs/Makefile
 +obj-$(CONFIG_ESD_FS) += esdfs.o
 +
 +esdfs-y := dentry.o file.o inode.o main.o super.o lookup.o mmap.o derive.o
-Index: linux/fs/esdfs/dentry.c
+Index: kernel-rockchip/fs/esdfs/dentry.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/dentry.c
++++ kernel-rockchip/fs/esdfs/dentry.c
 @@ -0,0 +1,158 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -1332,10 +1332,10 @@ Index: linux/fs/esdfs/dentry.c
 +	.d_compare	= esdfs_d_compare,
 +	.d_release	= esdfs_d_release,
 +};
-Index: linux/fs/esdfs/derive.c
+Index: kernel-rockchip/fs/esdfs/derive.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/derive.c
++++ kernel-rockchip/fs/esdfs/derive.c
 @@ -0,0 +1,608 @@
 +/*
 + * Copyright (c) 2013-2014 Motorola Mobility LLC
@@ -1945,10 +1945,10 @@ Index: linux/fs/esdfs/derive.c
 +	esdfs_revert_creds(creds, &mask);
 +	return err;
 +}
-Index: linux/fs/esdfs/esdfs.h
+Index: kernel-rockchip/fs/esdfs/esdfs.h
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/esdfs.h
++++ kernel-rockchip/fs/esdfs/esdfs.h
 @@ -0,0 +1,627 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -2577,10 +2577,10 @@ Index: linux/fs/esdfs/esdfs.h
 +}
 +
 +#endif	/* not _ESDFS_H_ */
-Index: linux/fs/esdfs/file.c
+Index: kernel-rockchip/fs/esdfs/file.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/file.c
++++ kernel-rockchip/fs/esdfs/file.c
 @@ -0,0 +1,471 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -3053,10 +3053,10 @@ Index: linux/fs/esdfs/file.c
 +	.fsync		= esdfs_fsync,
 +	.fasync		= esdfs_fasync,
 +};
-Index: linux/fs/esdfs/inode.c
+Index: kernel-rockchip/fs/esdfs/inode.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/inode.c
++++ kernel-rockchip/fs/esdfs/inode.c
 @@ -0,0 +1,534 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -3592,10 +3592,10 @@ Index: linux/fs/esdfs/inode.c
 +	.setattr	= esdfs_setattr,
 +	.getattr	= esdfs_getattr,
 +};
-Index: linux/fs/esdfs/lookup.c
+Index: kernel-rockchip/fs/esdfs/lookup.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/lookup.c
++++ kernel-rockchip/fs/esdfs/lookup.c
 @@ -0,0 +1,474 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -4071,10 +4071,10 @@ Index: linux/fs/esdfs/lookup.c
 +		dput(real_parent);
 +	return ret;
 +}
-Index: linux/fs/esdfs/main.c
+Index: kernel-rockchip/fs/esdfs/main.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/main.c
++++ kernel-rockchip/fs/esdfs/main.c
 @@ -0,0 +1,725 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -4801,10 +4801,10 @@ Index: linux/fs/esdfs/main.c
 +
 +module_init(init_esdfs_fs);
 +module_exit(exit_esdfs_fs);
-Index: linux/fs/esdfs/mmap.c
+Index: kernel-rockchip/fs/esdfs/mmap.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/mmap.c
++++ kernel-rockchip/fs/esdfs/mmap.c
 @@ -0,0 +1,98 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -4904,10 +4904,10 @@ Index: linux/fs/esdfs/mmap.c
 +	.open		= esdfs_vm_open,
 +	.close		= esdfs_vm_close,
 +};
-Index: linux/fs/esdfs/super.c
+Index: kernel-rockchip/fs/esdfs/super.c
 ===================================================================
 --- /dev/null
-+++ linux/fs/esdfs/super.c
++++ kernel-rockchip/fs/esdfs/super.c
 @@ -0,0 +1,290 @@
 +/*
 + * Copyright (c) 1998-2014 Erez Zadok
@@ -5199,10 +5199,10 @@ Index: linux/fs/esdfs/super.c
 +	.destroy_inode	= esdfs_destroy_inode,
 +	.drop_inode	= generic_delete_inode,
 +};
-Index: linux/include/linux/low-mem-notify.h
+Index: kernel-rockchip/include/linux/low-mem-notify.h
 ===================================================================
 --- /dev/null
-+++ linux/include/linux/low-mem-notify.h
++++ kernel-rockchip/include/linux/low-mem-notify.h
 @@ -0,0 +1,22 @@
 +#ifndef _LINUX_LOW_MEM_NOTIFY_H
 +#define _LINUX_LOW_MEM_NOTIFY_H
@@ -5226,10 +5226,10 @@ Index: linux/include/linux/low-mem-notify.h
 +#endif
 +
 +#endif
-Index: linux/include/linux/mm.h
+Index: kernel-rockchip/include/linux/mm.h
 ===================================================================
---- linux.orig/include/linux/mm.h
-+++ linux/include/linux/mm.h
+--- kernel-rockchip.orig/include/linux/mm.h
++++ kernel-rockchip/include/linux/mm.h
 @@ -212,6 +212,7 @@ static inline void __mm_zero_struct_page
  #define DEFAULT_MAX_MAP_COUNT	(USHRT_MAX - MAPCOUNT_ELF_CORE_MARGIN)
  
@@ -5238,7 +5238,7 @@ Index: linux/include/linux/mm.h
  
  extern unsigned long sysctl_user_reserve_kbytes;
  extern unsigned long sysctl_admin_reserve_kbytes;
-@@ -3360,6 +3361,9 @@ unsigned long wp_shared_mapping_range(st
+@@ -3369,6 +3370,9 @@ unsigned long wp_shared_mapping_range(st
  #endif
  
  extern int sysctl_nr_trim_pages;
@@ -5247,11 +5247,11 @@ Index: linux/include/linux/mm.h
 +  void *buf, size_t *len, loff_t *pos);
  extern bool pte_map_lock_addr(struct vm_fault *vmf, unsigned long addr);
  extern int reclaim_shmem_address_space(struct address_space *mapping);
- extern int reclaim_pages_from_list(struct list_head *page_list);
-Index: linux/include/linux/netfilter/xt_qtaguid.h
+ 
+Index: kernel-rockchip/include/linux/netfilter/xt_qtaguid.h
 ===================================================================
 --- /dev/null
-+++ linux/include/linux/netfilter/xt_qtaguid.h
++++ kernel-rockchip/include/linux/netfilter/xt_qtaguid.h
 @@ -0,0 +1,15 @@
 +#ifndef _XT_QTAGUID_MATCH_H
 +#define _XT_QTAGUID_MATCH_H
@@ -5268,10 +5268,10 @@ Index: linux/include/linux/netfilter/xt_qtaguid.h
 +
 +int qtaguid_untag(struct socket *sock, bool kernel);
 +#endif /* _XT_QTAGUID_MATCH_H */
-Index: linux/mm/vmscan.c
+Index: kernel-rockchip/mm/vmscan.c
 ===================================================================
---- linux.orig/mm/vmscan.c
-+++ linux/mm/vmscan.c
+--- kernel-rockchip.orig/mm/vmscan.c
++++ kernel-rockchip/mm/vmscan.c
 @@ -209,6 +209,28 @@ static void set_task_reclaim_state(struc
  	task->reclaim_state = rs;
  }
@@ -5301,7 +5301,7 @@ Index: linux/mm/vmscan.c
  static LIST_HEAD(shrinker_list);
  static DECLARE_RWSEM(shrinker_rwsem);
  
-@@ -2289,6 +2311,28 @@ enum scan_balance {
+@@ -2303,6 +2325,28 @@ enum scan_balance {
  };
  
  /*
@@ -5330,7 +5330,7 @@ Index: linux/mm/vmscan.c
   * Determine how aggressively the anon and file LRU lists should be
   * scanned.  The relative value of each set of LRU lists is determined
   * by looking at the fraction of the pages scanned we did rotate back
-@@ -2329,6 +2373,15 @@ static void get_scan_count(struct lruvec
+@@ -2343,6 +2387,15 @@ static void get_scan_count(struct lruvec
  		goto out;
  	}
  
@@ -5346,10 +5346,10 @@ Index: linux/mm/vmscan.c
  	/*
  	 * Do not apply any pressure balancing cleverness when the
  	 * system is close to OOM, scan both anon and file equally
-Index: linux/net/netfilter/Makefile
+Index: kernel-rockchip/net/netfilter/Makefile
 ===================================================================
---- linux.orig/net/netfilter/Makefile
-+++ linux/net/netfilter/Makefile
+--- kernel-rockchip.orig/net/netfilter/Makefile
++++ kernel-rockchip/net/netfilter/Makefile
 @@ -196,6 +196,7 @@ obj-$(CONFIG_NETFILTER_XT_MATCH_CGROUP)
  obj-$(CONFIG_NETFILTER_XT_MATCH_PHYSDEV) += xt_physdev.o
  obj-$(CONFIG_NETFILTER_XT_MATCH_PKTTYPE) += xt_pkttype.o
@@ -5358,10 +5358,10 @@ Index: linux/net/netfilter/Makefile
  obj-$(CONFIG_NETFILTER_XT_MATCH_QUOTA) += xt_quota.o
  obj-$(CONFIG_NETFILTER_XT_MATCH_QUOTA2) += xt_quota2.o
  obj-$(CONFIG_NETFILTER_XT_MATCH_RATEEST) += xt_rateest.o
-Index: linux/net/netfilter/xt_qtaguid.c
+Index: kernel-rockchip/net/netfilter/xt_qtaguid.c
 ===================================================================
 --- /dev/null
-+++ linux/net/netfilter/xt_qtaguid.c
++++ kernel-rockchip/net/netfilter/xt_qtaguid.c
 @@ -0,0 +1,3327 @@
 +/*
 + * Kernel iptables module to track stats for packets based on user tags.
@@ -8690,10 +8690,10 @@ Index: linux/net/netfilter/xt_qtaguid.c
 +MODULE_ALIAS("ip6t_owner");
 +MODULE_ALIAS("ipt_qtaguid");
 +MODULE_ALIAS("ip6t_qtaguid");
-Index: linux/net/netfilter/xt_qtaguid_internal.h
+Index: kernel-rockchip/net/netfilter/xt_qtaguid_internal.h
 ===================================================================
 --- /dev/null
-+++ linux/net/netfilter/xt_qtaguid_internal.h
++++ kernel-rockchip/net/netfilter/xt_qtaguid_internal.h
 @@ -0,0 +1,353 @@
 +/*
 + * Kernel iptables module to track stats for packets based on user tags.
@@ -9048,10 +9048,10 @@ Index: linux/net/netfilter/xt_qtaguid_internal.h
 +
 +/*----------------------------------------------*/
 +#endif  /* ifndef __XT_QTAGUID_INTERNAL_H__ */
-Index: linux/net/netfilter/xt_qtaguid_print.c
+Index: kernel-rockchip/net/netfilter/xt_qtaguid_print.c
 ===================================================================
 --- /dev/null
-+++ linux/net/netfilter/xt_qtaguid_print.c
++++ kernel-rockchip/net/netfilter/xt_qtaguid_print.c
 @@ -0,0 +1,563 @@
 +/*
 + * Pretty printing Support for iptables xt_qtaguid module.
@@ -9616,10 +9616,10 @@ Index: linux/net/netfilter/xt_qtaguid_print.c
 +		return "bad event num";
 +	return netdev_event_strings[netdev_event];
 +}
-Index: linux/net/netfilter/xt_qtaguid_print.h
+Index: kernel-rockchip/net/netfilter/xt_qtaguid_print.h
 ===================================================================
 --- /dev/null
-+++ linux/net/netfilter/xt_qtaguid_print.h
++++ kernel-rockchip/net/netfilter/xt_qtaguid_print.h
 @@ -0,0 +1,120 @@
 +/*
 + * Pretty printing Support for iptables xt_qtaguid module.
@@ -9741,10 +9741,10 @@ Index: linux/net/netfilter/xt_qtaguid_print.h
 +/*------------------------------------------*/
 +const char *netdev_evt_str(int netdev_event);
 +#endif  /* ifndef __XT_QTAGUID_PRINT_H__ */
-Index: linux/fs/namespace.c
+Index: kernel-rockchip/fs/namespace.c
 ===================================================================
---- linux.orig/fs/namespace.c
-+++ linux/fs/namespace.c
+--- kernel-rockchip.orig/fs/namespace.c
++++ kernel-rockchip/fs/namespace.c
 @@ -3180,6 +3180,15 @@ int path_mount(const char *dev_name, str
  	if (!(flags & MS_NOATIME))
  		mnt_flags |= MNT_RELATIME;
@@ -9761,11 +9761,11 @@ Index: linux/fs/namespace.c
  	/* Separate the per-mountpoint flags */
  	if (flags & MS_NOSUID)
  		mnt_flags |= MNT_NOSUID;
-Index: linux/include/uapi/linux/netfilter/xt_IDLETIMER.h
+Index: kernel-rockchip/include/uapi/linux/netfilter/xt_IDLETIMER.h
 ===================================================================
---- linux.orig/include/uapi/linux/netfilter/xt_IDLETIMER.h
-+++ linux/include/uapi/linux/netfilter/xt_IDLETIMER.h
-@@ -34,11 +34,18 @@
+--- kernel-rockchip.orig/include/uapi/linux/netfilter/xt_IDLETIMER.h
++++ kernel-rockchip/include/uapi/linux/netfilter/xt_IDLETIMER.h
+@@ -19,11 +19,18 @@
  #define MAX_IDLETIMER_LABEL_SIZE 28
  #define XT_IDLETIMER_ALARM 0x01
  
@@ -9784,10 +9784,10 @@ Index: linux/include/uapi/linux/netfilter/xt_IDLETIMER.h
  	/* for kernel module internal use only */
  	struct idletimer_tg *timer __attribute__((aligned(8)));
  };
-Index: linux/net/ipv4/af_inet.c
+Index: kernel-rockchip/net/ipv4/af_inet.c
 ===================================================================
---- linux.orig/net/ipv4/af_inet.c
-+++ linux/net/ipv4/af_inet.c
+--- kernel-rockchip.orig/net/ipv4/af_inet.c
++++ kernel-rockchip/net/ipv4/af_inet.c
 @@ -418,6 +418,9 @@ int inet_release(struct socket *sock)
  		if (!sk->sk_kern_sock)
  			BPF_CGROUP_RUN_PROG_INET_SOCK_RELEASE(sk);
@@ -9798,11 +9798,11 @@ Index: linux/net/ipv4/af_inet.c
  		/* Applications forget to leave groups before exiting */
  		ip_mc_drop_socket(sk);
  
-Index: linux/net/netfilter/Kconfig
+Index: kernel-rockchip/net/netfilter/Kconfig
 ===================================================================
---- linux.orig/net/netfilter/Kconfig
-+++ linux/net/netfilter/Kconfig
-@@ -1467,6 +1467,22 @@ config NETFILTER_XT_MATCH_PKTTYPE
+--- kernel-rockchip.orig/net/netfilter/Kconfig
++++ kernel-rockchip/net/netfilter/Kconfig
+@@ -1466,6 +1466,22 @@ config NETFILTER_XT_MATCH_PKTTYPE
  
  	  To compile it as a module, choose M here.  If unsure, say N.
  
@@ -9825,10 +9825,10 @@ Index: linux/net/netfilter/Kconfig
  config NETFILTER_XT_MATCH_QUOTA
  	tristate '"quota" match support'
  	depends on NETFILTER_ADVANCED
-Index: linux/net/netfilter/xt_IDLETIMER.c
+Index: kernel-rockchip/net/netfilter/xt_IDLETIMER.c
 ===================================================================
---- linux.orig/net/netfilter/xt_IDLETIMER.c
-+++ linux/net/netfilter/xt_IDLETIMER.c
+--- kernel-rockchip.orig/net/netfilter/xt_IDLETIMER.c
++++ kernel-rockchip/net/netfilter/xt_IDLETIMER.c
 @@ -331,7 +331,7 @@ static int idletimer_tg_create(struct id
  	pr_debug("timer type value is 0.\n");
  	info->timer->timer_type = 0;
@@ -9846,10 +9846,10 @@ Index: linux/net/netfilter/xt_IDLETIMER.c
  	.family		= NFPROTO_UNSPEC,
  	.target		= idletimer_tg_target,
  	.targetsize     = sizeof(struct idletimer_tg_info),
-Index: linux/include/linux/pkglist.h
+Index: kernel-rockchip/include/linux/pkglist.h
 ===================================================================
 --- /dev/null
-+++ linux/include/linux/pkglist.h
++++ kernel-rockchip/include/linux/pkglist.h
 @@ -0,0 +1,38 @@
 +#ifndef _PKGLIST_H_
 +#define _PKGLIST_H_
@@ -9889,10 +9889,10 @@ Index: linux/include/linux/pkglist.h
 +void pkglist_register_update_listener(struct pkg_list *pkg);
 +void pkglist_unregister_update_listener(struct pkg_list *pkg);
 +#endif
-Index: linux/include/uapi/linux/magic.h
+Index: kernel-rockchip/include/uapi/linux/magic.h
 ===================================================================
---- linux.orig/include/uapi/linux/magic.h
-+++ linux/include/uapi/linux/magic.h
+--- kernel-rockchip.orig/include/uapi/linux/magic.h
++++ kernel-rockchip/include/uapi/linux/magic.h
 @@ -58,6 +58,8 @@
  #define REISER2FS_SUPER_MAGIC_STRING	"ReIsEr2Fs"
  #define REISER2FS_JR_SUPER_MAGIC_STRING	"ReIsEr3Fs"
@@ -9902,11 +9902,11 @@ Index: linux/include/uapi/linux/magic.h
  #define SMB_SUPER_MAGIC		0x517B
  #define CGROUP_SUPER_MAGIC	0x27e0eb
  #define CGROUP2_SUPER_MAGIC	0x63677270
-Index: linux/kernel/sysctl.c
+Index: kernel-rockchip/kernel/sysctl.c
 ===================================================================
---- linux.orig/kernel/sysctl.c
-+++ linux/kernel/sysctl.c
-@@ -3036,6 +3036,15 @@ static struct ctl_table vm_table[] = {
+--- kernel-rockchip.orig/kernel/sysctl.c
++++ kernel-rockchip/kernel/sysctl.c
+@@ -3083,6 +3083,15 @@ static struct ctl_table vm_table[] = {
  		.mode		= 0644,
  		.proc_handler	= mmap_min_addr_handler,
  	},
@@ -9922,7 +9922,7 @@ Index: linux/kernel/sysctl.c
  #endif
  #ifdef CONFIG_NUMA
  	{
-@@ -3107,6 +3116,13 @@ static struct ctl_table vm_table[] = {
+@@ -3154,6 +3163,13 @@ static struct ctl_table vm_table[] = {
  		.mode		= 0644,
  		.proc_handler	= proc_doulongvec_minmax,
  	},
@@ -9936,10 +9936,10 @@ Index: linux/kernel/sysctl.c
  #ifdef CONFIG_HAVE_ARCH_MMAP_RND_BITS
  	{
  		.procname	= "mmap_rnd_bits",
-Index: linux/mm/Kconfig
+Index: kernel-rockchip/mm/Kconfig
 ===================================================================
---- linux.orig/mm/Kconfig
-+++ linux/mm/Kconfig
+--- kernel-rockchip.orig/mm/Kconfig
++++ kernel-rockchip/mm/Kconfig
 @@ -253,6 +253,17 @@ config PAGE_REPORTING
  	  those pages to another entity, such as a hypervisor, so that the
  	  memory can be freed within the host for other uses.
@@ -9982,9 +9982,9 @@ Index: linux/mm/Kconfig
  config ARCH_SUPPORTS_MEMORY_FAILURE
  	bool
  
-@@ -904,4 +932,77 @@ config ARCH_HAS_HUGEPD
- config MAPPING_DIRTY_HELPERS
-         bool
+@@ -914,4 +942,77 @@ config MAPPING_DIRTY_HELPERS
+ 
+ source "mm/damon/Kconfig"
  
 +config KMAP_LOCAL
 +	bool
@@ -10060,22 +10060,22 @@ Index: linux/mm/Kconfig
 +# }
 +
  endmenu
-Index: linux/mm/Makefile
+Index: kernel-rockchip/mm/Makefile
 ===================================================================
---- linux.orig/mm/Makefile
-+++ linux/mm/Makefile
+--- kernel-rockchip.orig/mm/Makefile
++++ kernel-rockchip/mm/Makefile
 @@ -116,6 +116,7 @@ obj-$(CONFIG_CMA_SYSFS) += cma_sysfs.o
  obj-$(CONFIG_USERFAULTFD) += userfaultfd.o
  obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
  obj-$(CONFIG_FRAME_VECTOR) += frame_vector.o
 +obj-$(CONFIG_LOW_MEM_NOTIFY) += low-mem-notify.o
  obj-$(CONFIG_DEBUG_PAGE_REF) += debug_page_ref.o
+ obj-$(CONFIG_DAMON) += damon/
  obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
- obj-$(CONFIG_PERCPU_STATS) += percpu-stats.o
-Index: linux/mm/low-mem-notify.c
+Index: kernel-rockchip/mm/low-mem-notify.c
 ===================================================================
 --- /dev/null
-+++ linux/mm/low-mem-notify.c
++++ kernel-rockchip/mm/low-mem-notify.c
 @@ -0,0 +1,398 @@
 +/*
 + * mm/low-mem-notify.c
@@ -10475,11 +10475,11 @@ Index: linux/mm/low-mem-notify.c
 +module_init(low_mem_init)
 +
 +#endif
-Index: linux/mm/util.c
+Index: kernel-rockchip/mm/util.c
 ===================================================================
---- linux.orig/mm/util.c
-+++ linux/mm/util.c
-@@ -738,6 +738,7 @@ int sysctl_overcommit_memory __read_most
+--- kernel-rockchip.orig/mm/util.c
++++ kernel-rockchip/mm/util.c
+@@ -791,6 +791,7 @@ int sysctl_overcommit_memory __read_most
  int sysctl_overcommit_ratio __read_mostly = 50;
  unsigned long sysctl_overcommit_kbytes __read_mostly;
  int sysctl_max_map_count __read_mostly = DEFAULT_MAX_MAP_COUNT;
@@ -10487,10 +10487,10 @@ Index: linux/mm/util.c
  unsigned long sysctl_user_reserve_kbytes __read_mostly = 1UL << 17; /* 128MB */
  unsigned long sysctl_admin_reserve_kbytes __read_mostly = 1UL << 13; /* 8MB */
  
-Index: linux/net/xfrm/xfrm_sysctl.c
+Index: kernel-rockchip/net/xfrm/xfrm_sysctl.c
 ===================================================================
---- linux.orig/net/xfrm/xfrm_sysctl.c
-+++ linux/net/xfrm/xfrm_sysctl.c
+--- kernel-rockchip.orig/net/xfrm/xfrm_sysctl.c
++++ kernel-rockchip/net/xfrm/xfrm_sysctl.c
 @@ -56,8 +56,10 @@ int __net_init xfrm_sysctl_init(struct n
  	table[3].data = &net->xfrm.sysctl_acq_expires;
  
@@ -10504,10 +10504,10 @@ Index: linux/net/xfrm/xfrm_sysctl.c
  
  	net->xfrm.sysctl_hdr = register_net_sysctl(net, "net/core", table);
  	if (!net->xfrm.sysctl_hdr)
-Index: linux/drivers/md/dm-verity-target.c
+Index: kernel-rockchip/drivers/md/dm-verity-target.c
 ===================================================================
---- linux.orig/drivers/md/dm-verity-target.c
-+++ linux/drivers/md/dm-verity-target.c
+--- kernel-rockchip.orig/drivers/md/dm-verity-target.c
++++ kernel-rockchip/drivers/md/dm-verity-target.c
 @@ -16,8 +16,10 @@
  #include "dm-verity.h"
  #include "dm-verity-fec.h"
@@ -10885,10 +10885,10 @@ Index: linux/drivers/md/dm-verity-target.c
  	return r;
  }
  
-Index: linux/drivers/md/dm-verity.h
+Index: kernel-rockchip/drivers/md/dm-verity.h
 ===================================================================
---- linux.orig/drivers/md/dm-verity.h
-+++ linux/drivers/md/dm-verity.h
+--- kernel-rockchip.orig/drivers/md/dm-verity.h
++++ kernel-rockchip/drivers/md/dm-verity.h
 @@ -14,6 +14,7 @@
  #include <linux/dm-bufio.h>
  #include <linux/device-mapper.h>
@@ -10953,10 +10953,10 @@ Index: linux/drivers/md/dm-verity.h
 +extern void dm_verity_avb_error_handler(void);
 +
  #endif /* DM_VERITY_H */
-Index: linux/drivers/block/zram/zram_drv.c
+Index: kernel-rockchip/drivers/block/zram/zram_drv.c
 ===================================================================
---- linux.orig/drivers/block/zram/zram_drv.c
-+++ linux/drivers/block/zram/zram_drv.c
+--- kernel-rockchip.orig/drivers/block/zram/zram_drv.c
++++ kernel-rockchip/drivers/block/zram/zram_drv.c
 @@ -1826,6 +1826,9 @@ static int zram_open(struct block_device
  
  	WARN_ON(!mutex_is_locked(&bdev->bd_mutex));
@@ -10967,19 +10967,19 @@ Index: linux/drivers/block/zram/zram_drv.c
  	zram = bdev->bd_disk->private_data;
  	/* zram was claimed to reset so open request fails */
  	if (zram->claim)
-Index: linux/mm/page_alloc.c
+Index: kernel-rockchip/mm/page_alloc.c
 ===================================================================
---- linux.orig/mm/page_alloc.c
-+++ linux/mm/page_alloc.c
+--- kernel-rockchip.orig/mm/page_alloc.c
++++ kernel-rockchip/mm/page_alloc.c
 @@ -71,6 +71,7 @@
  #include <linux/psi.h>
  #include <linux/padata.h>
  #include <linux/khugepaged.h>
 +#include <linux/low-mem-notify.h>
  #include <trace/hooks/mm.h>
+ #include <trace/hooks/vmscan.h>
  
- #include <asm/sections.h>
-@@ -4669,6 +4670,7 @@ should_reclaim_retry(gfp_t gfp_mask, uns
+@@ -4711,6 +4712,7 @@ should_reclaim_retry(gfp_t gfp_mask, uns
  	 * several times in the row.
  	 */
  	if (*no_progress_loops > MAX_RECLAIM_RETRIES) {
@@ -10987,7 +10987,7 @@ Index: linux/mm/page_alloc.c
  		/* Before OOM, exhaust highatomic_reserve */
  		return unreserve_highatomic_pageblock(ac, true);
  	}
-@@ -5102,6 +5104,8 @@ __alloc_pages_nodemask(gfp_t gfp_mask, u
+@@ -5167,6 +5169,8 @@ __alloc_pages_nodemask(gfp_t gfp_mask, u
  	if (!prepare_alloc_pages(gfp_mask, order, preferred_nid, nodemask, &ac, &alloc_mask, &alloc_flags))
  		return NULL;
  
@@ -10996,10 +10996,10 @@ Index: linux/mm/page_alloc.c
  	/*
  	 * Forbid the first pass from falling back to types that fragment
  	 * memory until all local zones are considered.
-Index: linux/drivers/md/Kconfig
+Index: kernel-rockchip/drivers/md/Kconfig
 ===================================================================
---- linux.orig/drivers/md/Kconfig
-+++ linux/drivers/md/Kconfig
+--- kernel-rockchip.orig/drivers/md/Kconfig
++++ kernel-rockchip/drivers/md/Kconfig
 @@ -307,6 +307,19 @@ config DM_DEFAULT_KEY
  	  such that all fscrypt keys are at least as hard to compromise
  	  as the default key.
@@ -11038,10 +11038,10 @@ Index: linux/drivers/md/Kconfig
  config DM_VERITY_FEC
  	bool "Verity forward error correction support"
  	depends on DM_VERITY
-Index: linux/drivers/md/Makefile
+Index: kernel-rockchip/drivers/md/Makefile
 ===================================================================
---- linux.orig/drivers/md/Makefile
-+++ linux/drivers/md/Makefile
+--- kernel-rockchip.orig/drivers/md/Makefile
++++ kernel-rockchip/drivers/md/Makefile
 @@ -79,6 +79,7 @@ obj-$(CONFIG_DM_INTEGRITY)	+= dm-integri
  obj-$(CONFIG_DM_ZONED)		+= dm-zoned.o
  obj-$(CONFIG_DM_WRITECACHE)	+= dm-writecache.o
@@ -11061,10 +11061,10 @@ Index: linux/drivers/md/Makefile
  ifeq ($(CONFIG_DM_VERITY_FEC),y)
  dm-verity-objs			+= dm-verity-fec.o
  endif
-Index: linux/drivers/md/dm-init.c
+Index: kernel-rockchip/drivers/md/dm-init.c
 ===================================================================
---- linux.orig/drivers/md/dm-init.c
-+++ linux/drivers/md/dm-init.c
+--- kernel-rockchip.orig/drivers/md/dm-init.c
++++ kernel-rockchip/drivers/md/dm-init.c
 @@ -301,3 +301,254 @@ late_initcall(dm_init_init);
  
  module_param(create, charp, 0);
@@ -11320,10 +11320,10 @@ Index: linux/drivers/md/dm-init.c
 +late_initcall(dm_chrome_parse_devices);
 +
 +__setup("dm=", dm_chrome_shim);
-Index: linux/include/linux/chromeos_platform.h
+Index: kernel-rockchip/include/linux/chromeos_platform.h
 ===================================================================
 --- /dev/null
-+++ linux/include/linux/chromeos_platform.h
++++ kernel-rockchip/include/linux/chromeos_platform.h
 @@ -0,0 +1,27 @@
 +#ifndef _LINUX_CHROMEOS_PLATFORM_H
 +#define _LINUX_CHROMEOS_PLATFORM_H
@@ -11352,10 +11352,10 @@ Index: linux/include/linux/chromeos_platform.h
 +#endif /* CONFIG_CHROMEOS */
 +
 +#endif /* _LINUX_CHROMEOS_PLATFORM_H */
-Index: linux/drivers/md/dm-verity-avb.c
+Index: kernel-rockchip/drivers/md/dm-verity-avb.c
 ===================================================================
 --- /dev/null
-+++ linux/drivers/md/dm-verity-avb.c
++++ kernel-rockchip/drivers/md/dm-verity-avb.c
 @@ -0,0 +1,229 @@
 +/*
 + * Copyright (C) 2017 Google.
@@ -11586,10 +11586,10 @@ Index: linux/drivers/md/dm-verity-avb.c
 +module_param_string(device, avb_vbmeta_device, sizeof(avb_vbmeta_device), 0);
 +module_param_string(invalidate_on_error, avb_invalidate_on_error,
 +		    sizeof(avb_invalidate_on_error), 0);
-Index: linux/drivers/md/dm-verity-chromeos.c
+Index: kernel-rockchip/drivers/md/dm-verity-chromeos.c
 ===================================================================
 --- /dev/null
-+++ linux/drivers/md/dm-verity-chromeos.c
++++ kernel-rockchip/drivers/md/dm-verity-chromeos.c
 @@ -0,0 +1,305 @@
 +/*
 + * Copyright (C) 2010 The Chromium OS Authors <chromium-os-dev@chromium.org>
@@ -11896,11 +11896,11 @@ Index: linux/drivers/md/dm-verity-chromeos.c
 +#undef MODULE_PARAM_PREFIX
 +#define MODULE_PARAM_PREFIX	""
 +module_param_string(kern_guid, kern_guid, sizeof(kern_guid), 0);
-Index: linux/include/linux/mm_inline.h
+Index: kernel-rockchip/include/linux/mm_inline.h
 ===================================================================
---- linux.orig/include/linux/mm_inline.h
-+++ linux/include/linux/mm_inline.h
-@@ -45,6 +45,25 @@ static __always_inline void update_lru_s
+--- kernel-rockchip.orig/include/linux/mm_inline.h
++++ kernel-rockchip/include/linux/mm_inline.h
+@@ -49,6 +49,25 @@ static __always_inline void update_lru_s
  #endif
  }
  
@@ -11926,10 +11926,10 @@ Index: linux/include/linux/mm_inline.h
  static __always_inline void add_page_to_lru_list(struct page *page,
  				struct lruvec *lruvec, enum lru_list lru)
  {
-Index: linux/mm/mmap.c
+Index: kernel-rockchip/mm/mmap.c
 ===================================================================
---- linux.orig/mm/mmap.c
-+++ linux/mm/mmap.c
+--- kernel-rockchip.orig/mm/mmap.c
++++ kernel-rockchip/mm/mmap.c
 @@ -1598,7 +1598,8 @@ unsigned long do_mmap(struct file *file,
  			if (path_noexec(&file->f_path)) {
  				if (vm_flags & VM_EXEC)

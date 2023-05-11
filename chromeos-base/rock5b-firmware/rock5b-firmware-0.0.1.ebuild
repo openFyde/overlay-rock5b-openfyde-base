@@ -13,7 +13,9 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-RDEPEND=""
+RDEPEND="
+    sys-kernel/armbian-firmware
+"
 
 DEPEND="${RDEPEND}"
 

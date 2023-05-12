@@ -18,3 +18,8 @@ RDEPEND=""
 DEPEND="${RDEPEND}"
 
 S="${WORKDIR}"
+
+src_install() {
+  insinto /lib/firmware
+  doins -r ${FILESDIR}/firmware/*
+}

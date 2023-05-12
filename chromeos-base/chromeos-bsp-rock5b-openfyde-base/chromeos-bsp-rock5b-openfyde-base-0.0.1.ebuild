@@ -14,7 +14,7 @@ KEYWORDS="*"
 IUSE=""
 
 RDEPEND="
-    chromeos-base/rock5b-firmware
+    sys-kernel/armbian-firmware
     app-misc/fan-control-rock5b
     sys-boot/rock5b-loaders
     chromeos-base/os_install_service
@@ -25,6 +25,7 @@ DEPEND="${RDEPEND}"
 S="${WORKDIR}"
 
 src_install() {
-    insinto "/etc/init"
-    doins ${FILESDIR}/powerd/never-suspend.conf
+#    insinto "/etc/init"
+#    doins ${FILESDIR}/powerd/never-suspend.conf
+     default
 }

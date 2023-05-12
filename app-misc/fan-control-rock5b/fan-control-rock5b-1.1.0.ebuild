@@ -18,6 +18,6 @@ RDEPEND="${DEPEND}"
 S="${WORKDIR}"
 src_install()
 {
-    insinto "/usr/share/rock5b"
+    insinto "/etc/init"
     doins "${FILESDIR}/init/rock5-fan-control.conf"
 }

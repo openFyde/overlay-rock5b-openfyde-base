@@ -9,6 +9,6 @@ cros_post_src_install_rock5b_openfyde_flash_spi() {
 }
 
 cros_pre_src_prepare_rock5b_openfyde_patches() {
-  epatch ${ROCK5B_OPENFYDE_BASE_BASHRC_FILEPATH}/install.patch
-  epatch ${ROCK5B_OPENFYDE_BASE_BASHRC_FILEPATH}/postinst.patch
+  epatch -p2 ${ROCK5B_OPENFYDE_BASE_BASHRC_FILEPATH}/install.patch
+  epatch -p2 ${ROCK5B_OPENFYDE_BASE_BASHRC_FILEPATH}/postinst.patch
 }
